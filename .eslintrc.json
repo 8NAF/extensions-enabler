@@ -1,0 +1,21 @@
+{
+	"root": true,
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"ecmaVersion": 6,
+		"sourceType": "module"
+	},
+	"plugins": ["@typescript-eslint", "unused-imports"],
+	"rules": {
+		"@typescript-eslint/naming-convention": "warn",
+		"@typescript-eslint/semi": "off",
+		"curly": "warn",
+		"eqeqeq": "warn",
+		"no-throw-literal": "warn",
+		"semi": "off",
+
+		"@typescript-eslint/no-unused-vars": "off",
+		"unused-imports/no-unused-imports": "error"
+	},
+	"ignorePatterns": ["out", "dist", "**/*.d.ts"]
+}
