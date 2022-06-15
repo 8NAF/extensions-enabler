@@ -1,7 +1,7 @@
-import { Disposable, commands, window } from 'vscode'
+import { commands, Disposable, window } from 'vscode'
 
-import { getQuickPickItems, createQuickPick } from '@actions'
-import { Stage, Command } from '@commands'
+import { createQuickPick, getQuickPickItems } from '@actions'
+import { Command, Stage } from '@commands'
 import { Buttons } from '@paths'
 import { TemplateId } from '@types'
 import { toExtension } from '@utils/converter'

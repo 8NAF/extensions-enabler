@@ -1,9 +1,9 @@
 import { Disposable, window } from 'vscode'
 
 import {
-	createQuickPick,
 	createInputBox,
 	CreateInputBoxOptions,
+	createQuickPick,
 } from '@actions'
 import { Command, Stage } from '@commands'
 import { Buttons } from '@paths'

@@ -1,15 +1,15 @@
 import { ExtensionContext } from 'vscode'
 
+import { GlobalStorage, WorkspaceStorage } from '@data-sources'
 import { Command } from './.command'
 import { getCommand as getApplyCommand } from './apply.command'
-import { getCommand as getCreateCommand } from './create.command'
 import { getCommand as getCloneCommand } from './clone.command'
-import { getCommand as getEditCommand } from './edit.command'
-import { getCommand as getRenameCommand } from './rename.command'
+import { getCommand as getCreateCommand } from './create.command'
 import { getCommand as getDeleteCommand } from './delete.command'
+import { getCommand as getEditCommand } from './edit.command'
 import { getCommand as getExportCommand } from './export.command'
 import { getCommand as getImportCommand } from './import.command'
-import { GlobalStorage, WorkspaceStorage } from '@data-sources'
+import { getCommand as getRenameCommand } from './rename.command'
 
 const myCommands = {
 	apply: new Command('apply'),

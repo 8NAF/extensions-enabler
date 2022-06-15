@@ -1,7 +1,7 @@
 import * as vscode from 'vscode'
 
+import { Command, getCommands } from '@commands'
 import { PackageJSON } from '@types'
-import { getCommands, Command } from '@commands'
 
 export async function activate(context: vscode.ExtensionContext) {
 	Command.prefixCommand = (context.extension.packageJSON as PackageJSON).name

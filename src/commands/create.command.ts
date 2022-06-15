@@ -3,10 +3,10 @@ import { commands, window } from 'vscode'
 
 import {
 	getNameTemplateMaterials,
-	getSelectExtensionsMaterials,
 	getSaveOneToGlobalStorageMaterials,
+	getSelectExtensionsMaterials,
 } from '@actions'
-import { Command, StagesQueue, myCommands } from '@commands'
+import { Command, myCommands, StagesQueue } from '@commands'
 import { GlobalStorage } from '@data-sources'
 import { Stage } from './.stage'
 

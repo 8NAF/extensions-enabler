@@ -1,10 +1,8 @@
-import { QuickPickItem, window, QuickPick, InputBox } from 'vscode'
+import { InputBox, QuickPick, QuickPickItem, window } from 'vscode'
 
-import { GlobalStorage } from '@data-sources'
 import { Buttons } from '@paths'
-import { TemplateId, TemplateNames } from '@types'
-import { getInstalledExtensionPackageJSONs } from '@utils/extension'
 import { toQuickPickItem } from '@utils/converter'
+import { getInstalledExtensionPackageJSONs } from '@utils/extension'
 
 type CreateQuickPickOptions = Partial<
 	Pick<

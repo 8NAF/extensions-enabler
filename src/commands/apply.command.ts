@@ -1,10 +1,10 @@
 import { window } from 'vscode'
 
-import { Stage, StagesQueue } from './.stage'
 import { getSelectTemplatesMaterials } from '@actions'
 import { Command } from '@commands'
 import { GlobalStorage, WorkspaceStorage } from '@data-sources'
 import { TemplateId } from '@types'
+import { Stage, StagesQueue } from './.stage'
 
 function getCommand(
 	globalStorage: GlobalStorage,

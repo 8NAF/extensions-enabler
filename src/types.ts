@@ -1,5 +1,3 @@
-import { ExtensionContext } from 'vscode'
-
 type PackageJSON = {
 	name: string
 	publisher: string
@@ -38,15 +36,6 @@ type ExportedData = {
 	templates: Templates
 }
 
-type ExtraExtension = Extension & {
-	[key: string | number | symbol]: unknown
-}
-type ExtraTemplate = {
-	id: TemplateId
-	name: Parameters<ExtensionContext['globalState']['update']>[0]
-	extensions: ExtraExtension[]
-}
-
 export {
 	PackageJSON,
 	ExtensionIds,
@@ -58,6 +47,5 @@ export {
 	TemplateValue,
 	Template,
 	Templates,
-	ExtraExtension,
 	ExportedData,
 }

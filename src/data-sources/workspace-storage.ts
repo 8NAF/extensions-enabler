@@ -1,8 +1,8 @@
 import { join } from 'path'
 
 import { Database } from '@vscode/sqlite3'
-import { ExtensionContext } from 'vscode'
 import { open } from 'sqlite'
+import { ExtensionContext } from 'vscode'
 
 import { VS_CODE_WORKSPACE_STORAGE_PATH } from '@paths'
 import { Extension, TemplateId } from '@types'

@@ -1,7 +1,7 @@
 import {
 	getNameTemplateMaterials,
-	getSelectTemplatesMaterials,
 	getRenameOneToGlobalStorageMaterials,
+	getSelectTemplatesMaterials,
 } from '@actions'
 import { Command } from '@commands'
 import { GlobalStorage } from '@data-sources'

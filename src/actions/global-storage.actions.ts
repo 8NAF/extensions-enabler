@@ -2,10 +2,10 @@ import { ProgressLocation, window } from 'vscode'
 
 import { Command, Stage } from '@commands'
 import {
+	Extension,
 	TemplateId,
 	TemplateIds,
 	TemplateName,
-	Extension,
 	Templates,
 } from '@types'
 

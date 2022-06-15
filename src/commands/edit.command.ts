@@ -1,6 +1,5 @@
 import { commands, window } from 'vscode'
 
-import { Stage, StagesQueue } from './.stage'
 import {
 	getEditOneToGlobalStorageMaterials,
 	getSelectExtensionsMaterials,
@@ -9,6 +8,7 @@ import {
 import { Command, myCommands } from '@commands'
 import { GlobalStorage, WorkspaceStorage } from '@data-sources'
 import { TemplateId } from '@types'
+import { Stage, StagesQueue } from './.stage'
 
 function getCommand(
 	globalStorage: GlobalStorage,

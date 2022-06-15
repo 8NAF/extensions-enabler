@@ -1,10 +1,10 @@
 import { window } from 'vscode'
 
-import { Stage, StagesQueue } from './.stage'
+import { getSaveManyToGlobalStorageMaterials } from '@actions'
 import { Command } from '@commands'
 import { GlobalStorage, loadJson } from '@data-sources'
-import { getSaveManyToGlobalStorageMaterials } from '@actions'
 import { validate } from '@utils/validator'
+import { Stage, StagesQueue } from './.stage'
 
 function getCommand(globalStorage: GlobalStorage) {
 	const command = new Command('import')
