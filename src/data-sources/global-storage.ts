@@ -32,7 +32,7 @@ class GlobalStorage {
 		newExtensions: TemplateValue['extensions'],
 	) {
 		const templateValue = this.getTemplateValue(templateId)
-		if (templateValue === undefined) return
+		if (templateValue.name === '') return
 		templateValue.extensions = newExtensions
 
 		await this._updateOne(templateId, templateValue)
@@ -44,7 +44,7 @@ class GlobalStorage {
 		newName: TemplateValue['name'],
 	) {
 		const templateValue = this.getTemplateValue(templateId)
-		if (templateValue === undefined) return
+		if (templateValue.name === '') return
 		templateValue.name = newName
 
 		await this._updateOne(templateId, templateValue)
@@ -133,7 +133,7 @@ class GlobalStorage {
 
 	public async splitExtensions(templateId: TemplateId) {
 		const templateValue = this.getTemplateValue(templateId)
-		if (templateValue === undefined) {
+		if (templateValue.name === '') {
 			return {
 				enabledExtensions: [],
 				disabledExtensions: [],

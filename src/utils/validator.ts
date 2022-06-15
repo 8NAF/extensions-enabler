@@ -34,7 +34,7 @@ const templateExtensionsSchema = {
 				format: 'uuid4',
 			},
 		},
-		required: ['id', 'uuid'],
+		required: ['id'],
 		additionalProperties: true,
 	},
 }
