@@ -12,7 +12,9 @@ function getCommand(globalStorage: GlobalStorage) {
 
 	async function onRename() {
 		const { cleanup: cleanupSelectTemplates, selectTemplates } =
-			getSelectTemplatesMaterials.call(command, false)
+			getSelectTemplatesMaterials.call(command, {
+				canSelectMany: false,
+			})
 
 		const { cleanup: cleanupNameTemplate, nameTemplate } =
 			getNameTemplateMaterials({

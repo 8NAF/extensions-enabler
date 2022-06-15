@@ -11,12 +11,25 @@ import {
 } from '@types'
 import { getInstalledExtensions } from '@utils/extension'
 
+const prefix = 'template'
+
 class GlobalStorage {
 	public constructor(
 		private readonly globalState: ExtensionContext['globalState'],
 	) {}
 
+	public static readonly globalTemplateId = 'global'
+
 	//#region single value
+
+	public async updateGlobalTemplate(extensions: TemplateValue['extensions']) {
+		const key = `${prefix}/${GlobalStorage.globalTemplateId}`
+		await this.globalState.update(key, {
+			name: 'global',
+			extensions,
+		} as TemplateValue)
+		this.globalState.setKeysForSync(this.globalState.keys())
+	}
 
 	public async saveOne(templateId: TemplateId, templateValue: TemplateValue) {
 		return this._updateOne(templateId, templateValue)
@@ -54,7 +67,7 @@ class GlobalStorage {
 		templateId: TemplateId,
 		templateValue: TemplateValue | undefined,
 	) {
-		await this.globalState.update(templateId, templateValue)
+		await this.globalState.update(`${prefix}/${templateId}`, templateValue)
 		this.globalState.setKeysForSync(this.globalState.keys())
 	}
 
@@ -81,7 +94,7 @@ class GlobalStorage {
 	}) {
 		const templateIds = Object.keys(templates)
 		const promises = templateIds.map(id =>
-			this.globalState.update(id, templates[id]),
+			this.globalState.update(`${prefix}/${id}`, templates[id]),
 		)
 
 		await Promise.all(promises)
@@ -91,30 +104,36 @@ class GlobalStorage {
 	//#endregion
 	//#region getter
 
-	public getAllTemplates() {
-		const templateIds = this.globalState.keys()
-		return templateIds.map(
-			id =>
-				({
-					id,
-					...this.getTemplateValue(id),
-				} as Template),
-		)
+	public getAllTemplates(includeGlobalTemplate = false) {
+		const globalKey = `${prefix}/${GlobalStorage.globalTemplateId}`
+		const filter = includeGlobalTemplate
+			? () => true
+			: (key: string) => key !== globalKey
+		const keys = this.globalState.keys().filter(filter)
+
+		return keys.map(key => {
+			const id = key.replace(`${prefix}/`, '')
+			return {
+				id,
+				...this.getTemplateValue(id),
+			} as Template
+		})
 	}
 
-	public getAllTemplateIds() {
-		return new Set(this.globalState.keys()) as TemplateIds
+	public getAllTemplateIds(includeGlobalTemplate = false) {
+		return new Set(
+			this.getAllTemplates(includeGlobalTemplate).map(({ id }) => id),
+		) as TemplateIds
 	}
 
-	public getAllTemplateNames() {
-		return this.globalState
-			.keys()
-			.map(key => this.getTemplateValue(key).name)
-			.reduce((set, name) => set.add(name), new Set() as TemplateNames)
+	public getAllTemplateNames(includeGlobalTemplate = false) {
+		return new Set(
+			this.getAllTemplates(includeGlobalTemplate).map(({ name }) => name),
+		) as TemplateNames
 	}
 
 	public getTemplateValue(templateId: TemplateId) {
-		return this.globalState.get(templateId, {
+		return this.globalState.get(`${prefix}/${templateId}`, {
 			name: '',
 			extensions: [],
 		}) as TemplateValue

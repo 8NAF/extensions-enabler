@@ -1,6 +1,7 @@
 import { InputBox, QuickPick, QuickPickItem, window } from 'vscode'
 
 import { Buttons } from '@paths'
+import { ExtensionIds, TemplateNames } from '@types'
 import { toQuickPickItem } from '@utils/converter'
 import { getInstalledExtensionPackageJSONs } from '@utils/extension'
 
@@ -18,6 +19,7 @@ type CreateQuickPickOptions = Partial<
 	onDidTriggerItemButton?: Parameters<
 		QuickPick<QuickPickItem>['onDidTriggerItemButton']
 	>[0]
+	required?: boolean
 }
 
 /**
@@ -34,6 +36,7 @@ function createQuickPick({
 	selectedItems = [],
 	onDidTriggerItemButton = undefined,
 	buttons = [],
+	required = true,
 }: CreateQuickPickOptions) {
 	const quickPick = window.createQuickPick() as ReturnType<
 		typeof window.createQuickPick
@@ -59,7 +62,9 @@ function createQuickPick({
 	})
 
 	Object.defineProperty(quickPick, 'isValid', {
-		value: () => quickPick.selectedItems.length !== 0,
+		value: required
+			? () => quickPick.selectedItems.length !== 0
+			: () => true,
 		writable: false,
 		configurable: false,
 	})
@@ -124,11 +129,15 @@ function createInputBox({
 	return inputBox
 }
 
-async function getQuickPickItems(
-	globalStorage: GlobalStorage,
-	templateId: TemplateId,
-) {
-	const enabledExtensionIds = globalStorage.getExtensionIds(templateId)
+async function getQuickPickItems({
+	globalExtensionIds,
+	enabledExtensionIds,
+	applyGlobalTemplate,
+}: {
+	globalExtensionIds: ExtensionIds
+	enabledExtensionIds: ExtensionIds
+	applyGlobalTemplate: boolean
+}) {
 	const packageJSONs = await getInstalledExtensionPackageJSONs()
 
 	return packageJSONs.map(packageJSON => {
@@ -136,7 +145,10 @@ async function getQuickPickItems(
 		const id = `${publisher.toLowerCase()}.${name.toLowerCase()}`
 
 		return toQuickPickItem(packageJSON, {
-			picked: enabledExtensionIds.has(id),
+			picked: applyGlobalTemplate
+				? globalExtensionIds.has(id)
+				: enabledExtensionIds.has(id),
+			isGlobal: globalExtensionIds.has(id),
 			buttons: [Buttons.Information],
 		})
 	})

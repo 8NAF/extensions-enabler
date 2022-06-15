@@ -6,6 +6,7 @@ import { getCommand as getApplyCommand } from './apply.command'
 import { getCommand as getCloneCommand } from './clone.command'
 import { getCommand as getCreateCommand } from './create.command'
 import { getCommand as getDeleteCommand } from './delete.command'
+import { getCommand as getEditGlobalCommand } from './edit-global.command'
 import { getCommand as getEditCommand } from './edit.command'
 import { getCommand as getExportCommand } from './export.command'
 import { getCommand as getImportCommand } from './import.command'
@@ -20,6 +21,7 @@ const myCommands = {
 	delete: new Command('delete'),
 	export: new Command('export'),
 	import: new Command('import'),
+	editGlobal: new Command('editGlobal'),
 }
 
 function getCommands(context: ExtensionContext) {
@@ -37,6 +39,7 @@ function getCommands(context: ExtensionContext) {
 	myCommands['delete'] = getDeleteCommand(globalStorage)
 	myCommands['export'] = getExportCommand(globalStorage)
 	myCommands['import'] = getImportCommand(globalStorage)
+	myCommands['editGlobal'] = getEditGlobalCommand(globalStorage)
 
 	return myCommands
 }

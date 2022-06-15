@@ -2,16 +2,21 @@ import { commands, Disposable, window } from 'vscode'
 
 import { createQuickPick, getQuickPickItems } from '@actions'
 import { Command, Stage } from '@commands'
+import { GlobalStorage } from '@data-sources'
 import { Buttons } from '@paths'
 import { TemplateId } from '@types'
 import { toExtension } from '@utils/converter'
 
-function getSelectExtensionsMaterials(this: Command) {
+/**
+ *
+ * @param required - require select at least one item.
+ */
+function getSelectExtensionsMaterials(this: Command, required = true) {
 	const quickPick = createQuickPick({
 		title: 'Select all the extensions you want to enable',
 		canSelectMany: true,
 		ignoreFocusOut: true,
-		//buttons: [Buttons.Back, Buttons.Close],
+		required,
 		onDidTriggerItemButton: async ({ item, button }) => {
 			if (button.tooltip === Buttons.Information.tooltip) {
 				const { id } = toExtension(item)
@@ -49,10 +54,19 @@ function getSelectExtensionsMaterials(this: Command) {
 		}
 
 		if (manager.hasChangeStage) {
-			const extensionItems = await getQuickPickItems(
-				globalStorage,
-				templateId,
+			const applyGlobalTemplate = manager.getStorage<boolean>(
+				'applyGlobalTemplate',
+				false,
 			)
+
+			const extensionItems = await getQuickPickItems({
+				enabledExtensionIds: globalStorage.getExtensionIds(templateId),
+				globalExtensionIds: globalStorage.getExtensionIds(
+					GlobalStorage.globalTemplateId,
+				),
+				applyGlobalTemplate,
+			})
+
 			const enabledExtensionItems = extensionItems.filter(e => e.picked)
 
 			quickPick.items = extensionItems

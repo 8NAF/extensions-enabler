@@ -13,7 +13,9 @@ function getCommand(globalStorage: GlobalStorage) {
 
 	async function onDelete() {
 		const { cleanup: cleanupSelectTemplates, selectTemplates } =
-			getSelectTemplatesMaterials.call(command, true)
+			getSelectTemplatesMaterials.call(command, {
+				canSelectMany: true,
+			})
 
 		async function confirmDelete(this: Stage) {
 			const result = await window.showInformationMessage(

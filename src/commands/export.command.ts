@@ -11,9 +11,14 @@ import { Stage, StagesQueue } from './.stage'
 function getCommand(globalStorage: GlobalStorage) {
 	const command = new Command('export')
 
+	// TODO: export mode
 	async function onExport() {
 		const { cleanup: cleanupSelectTemplates, selectTemplates } =
-			getSelectTemplatesMaterials.call(command, true)
+			getSelectTemplatesMaterials.call(command, {
+				canSelectMany: true,
+				includeGlobalTemplate: true,
+				picked: true,
+			})
 
 		const stages = new StagesQueue(globalStorage, [
 			selectTemplates,
@@ -48,6 +53,7 @@ function getCommand(globalStorage: GlobalStorage) {
 		const { manager, exitCode } = this
 
 		const exportedData = {
+			globalTemplate: [],
 			templates: {},
 		} as ExportedData
 
@@ -64,6 +70,12 @@ function getCommand(globalStorage: GlobalStorage) {
 		if (selectedPath === '') {
 			window.showErrorMessage(`✏ Please select a path to export.`)
 			return exitCode
+		}
+
+		if (templateIds.delete(GlobalStorage.globalTemplateId)) {
+			exportedData.globalTemplate = globalStorage.getTemplateValue(
+				GlobalStorage.globalTemplateId,
+			).extensions
 		}
 
 		templateIds.forEach(id => {

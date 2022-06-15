@@ -18,7 +18,9 @@ function getCommand(globalStorage: GlobalStorage) {
 		const templateId = nanoid()
 
 		const { cleanup: cleanupSelectTemplates, selectTemplates } =
-			getSelectTemplatesMaterials.call(command, false)
+			getSelectTemplatesMaterials.call(command, {
+				canSelectMany: false,
+			})
 
 		async function selectTemplate(
 			this: ThisParameterType<typeof selectTemplates>,

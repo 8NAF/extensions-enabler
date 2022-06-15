@@ -51,7 +51,7 @@ function getCommand(globalStorage: GlobalStorage) {
 			askUserApplyTemplate,
 		])
 
-		stages.setStorages({ templateId })
+		stages.setStorages({ templateId, applyGlobalTemplate: true })
 		await stages.exec()
 
 		cleanupNameTemplate()

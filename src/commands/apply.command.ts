@@ -21,7 +21,9 @@ function getCommand(
 		restartMessage = '✅ Apply template successfully. 🔄 Please restart VSCode.',
 	) {
 		const { cleanup: cleanupSelectTemplates, selectTemplates } =
-			getSelectTemplatesMaterials.call(command, false)
+			getSelectTemplatesMaterials.call(command, {
+				canSelectMany: false,
+			})
 
 		async function applyTemplate(this: Stage) {
 			const { exitCode, manager, nextCode } = this

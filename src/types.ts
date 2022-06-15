@@ -33,6 +33,7 @@ type Templates = {
 }
 
 type ExportedData = {
+	globalTemplate: TemplateValue['extensions']
 	templates: Templates
 }
 

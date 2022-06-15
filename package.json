@@ -27,7 +27,8 @@
 		"onCommand:8naf-extension-enabler.rename",
 		"onCommand:8naf-extension-enabler.delete",
 		"onCommand:8naf-extension-enabler.export",
-		"onCommand:8naf-extension-enabler.import"
+		"onCommand:8naf-extension-enabler.import",
+		"onCommand:8naf-extension-enabler.editGlobal"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
@@ -63,6 +64,10 @@
 			{
 				"command": "8naf-extension-enabler.import",
 				"title": "8NAF: Import template(s)"
+			},
+			{
+				"command": "8naf-extension-enabler.editGlobal",
+				"title": "8NAF: Edit global template's extensions"
 			}
 		]
 	},

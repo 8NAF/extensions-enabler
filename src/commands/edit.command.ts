@@ -18,7 +18,9 @@ function getCommand(
 
 	async function onEdit(templateId: TemplateId | undefined) {
 		const { cleanup: cleanupSelectTemplates, selectTemplates } =
-			getSelectTemplatesMaterials.call(command, false)
+			getSelectTemplatesMaterials.call(command, {
+				canSelectMany: false,
+			})
 
 		const { cleanup: cleanupSelectExtensions, selectExtensions } =
 			getSelectExtensionsMaterials.call(command)

@@ -4,6 +4,17 @@ All notable changes to the "8naf-extension-enabler" extension will be documented
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.1.0] - 2022-06-15
+
+### Added
+
+-   `global template` & `edit global template` command.
+
+### Changed
+
+-   change exporting data schema (add `globalTemplate` key).
+
+---
 
 ## [0.0.2] - 2022-06-14
 

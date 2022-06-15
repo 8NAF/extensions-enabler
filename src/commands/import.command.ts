@@ -64,7 +64,7 @@ function getCommand(globalStorage: GlobalStorage) {
 			return exitCode
 		}
 
-		manager.setStorages({ templates: data.templates })
+		manager.setStorages({ ...data })
 		return nextCode
 	}
 

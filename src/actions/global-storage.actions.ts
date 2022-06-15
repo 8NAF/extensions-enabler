@@ -7,6 +7,7 @@ import {
 	TemplateIds,
 	TemplateName,
 	Templates,
+	TemplateValue,
 } from '@types'
 
 function getSaveOneToGlobalStorageMaterials(this: Command) {
@@ -254,9 +255,18 @@ function getSaveManyToGlobalStorageMaterials(this: Command) {
 					return exitCode
 				}
 
+				const globalTemplate = manager.getStorage<
+					TemplateValue['extensions']
+				>('globalTemplate', [])
+
 				try {
-					await globalStorage.deleteAll()
-					await globalStorage.saveMany(templates)
+					await Promise.all([
+						globalStorage.updateGlobalTemplate(globalTemplate),
+						async () => {
+							await globalStorage.deleteAll()
+							await globalStorage.saveMany(templates)
+						},
+					])
 
 					progress.report({ increment: 100 })
 					await window.showInformationMessage(
@@ -276,10 +286,47 @@ function getSaveManyToGlobalStorageMaterials(this: Command) {
 	}
 }
 
+function getEditGlobalTemplateToGlobalStorageMaterials() {
+	return async function (this: Stage) {
+		return window.withProgress(
+			{
+				location: ProgressLocation.Window,
+				title: 'Saving global template',
+			},
+			async progress => {
+				progress.report({ increment: 0 })
+
+				const { manager, nextCode, exitCode } = this
+				const { globalStorage } = manager
+
+				const extensions = manager.getStorage<Extension[]>(
+					'templateExtensions',
+					[],
+				)
+
+				return globalStorage
+					.updateGlobalTemplate(extensions)
+					.then(async () => {
+						progress.report({ increment: 100 })
+						await window.showInformationMessage(
+							`✅ update global template successfully.`,
+						)
+						return nextCode
+					})
+					.catch(() => {
+						progress.report({ increment: 100 })
+						return exitCode
+					})
+			},
+		)
+	}
+}
+
 export {
 	getSaveOneToGlobalStorageMaterials,
 	getEditOneToGlobalStorageMaterials,
 	getDeleteManyFromGlobalStorageMaterials,
 	getRenameOneToGlobalStorageMaterials,
 	getSaveManyToGlobalStorageMaterials,
+	getEditGlobalTemplateToGlobalStorageMaterials,
 }

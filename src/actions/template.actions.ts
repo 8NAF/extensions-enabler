@@ -68,7 +68,16 @@ function getNameTemplateMaterials(
 	}
 }
 
-function getSelectTemplatesMaterials(this: Command, canSelectMany: boolean) {
+type SelectTemplatesOptions = {
+	canSelectMany?: boolean
+	includeGlobalTemplate?: boolean
+	picked?: boolean
+}
+
+function getSelectTemplatesMaterials(
+	this: Command,
+	{ canSelectMany, includeGlobalTemplate, picked }: SelectTemplatesOptions,
+) {
 	const quickPick = createQuickPick({
 		title: `Select template you want to ${this.actionName}`,
 		canSelectMany,
@@ -90,8 +99,8 @@ function getSelectTemplatesMaterials(this: Command, canSelectMany: boolean) {
 
 		if (isFirstExecution) {
 			quickPick.items = globalStorage
-				.getAllTemplates()
-				.map(template => toQuickPickItem(template))
+				.getAllTemplates(includeGlobalTemplate)
+				.map(template => toQuickPickItem(template, { picked }))
 			isFirstExecution = false
 		} else {
 			const needReassign = manager.getStorage<
@@ -100,15 +109,15 @@ function getSelectTemplatesMaterials(this: Command, canSelectMany: boolean) {
 
 			if (needReassign(manager.hasChangeStage)) {
 				quickPick.items = globalStorage
-					.getAllTemplates()
-					.map(template => toQuickPickItem(template))
+					.getAllTemplates(includeGlobalTemplate)
+					.map(template => toQuickPickItem(template, { picked }))
 			} else {
 				// QuickPick does not render items when reshowing,
 				// so it need to be reassigned items
 				quickPick.items = quickPick.items
 			}
 		}
-		quickPick.selectedItems = quickPick.selectedItems
+		quickPick.selectedItems = quickPick.items.filter(item => item.picked)
 
 		if (quickPick.items.length === 0) {
 			window.showInformationMessage(

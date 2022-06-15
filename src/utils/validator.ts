@@ -56,12 +56,18 @@ const templatesSchema = {
 	},
 }
 
+const globalTemplateSchema = {
+	...templateExtensionsSchema,
+	minItems: 0,
+}
+
 const schema = {
 	type: 'object',
 	properties: {
 		templates: templatesSchema,
+		globalTemplate: globalTemplateSchema,
 	},
-	required: ['templates'],
+	required: ['templates', 'globalTemplate'],
 	additionalProperties: true,
 }
 

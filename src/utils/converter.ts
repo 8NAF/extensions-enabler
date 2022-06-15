@@ -34,6 +34,7 @@ function toExtension(data: QuickPickItem | PackageJSON): Extension {
 type ToQuickPickItemOptions = {
 	buttons?: QuickPickItem['buttons']
 	picked?: boolean
+	isGlobal?: boolean
 }
 
 function toQuickPickItem(
@@ -46,13 +47,15 @@ function toQuickPickItem(
 ): QuickPickItem
 function toQuickPickItem(
 	data: PackageJSON | Template,
-	{ buttons, picked }: ToQuickPickItemOptions = {},
+	{ buttons, picked, isGlobal = false }: ToQuickPickItemOptions = {},
 ): QuickPickItem {
 	if (_isPackageJson(data)) {
 		const { displayName, name, description } = data
 		const str = JSON.stringify(toExtension(data), undefined, ' ')
 		return {
-			label: `$(diff-added) ${displayName ?? name}`,
+			label: `$(diff-added) ${displayName ?? name} ${
+				isGlobal ? '[GLOBAL]' : ''
+			}`,
 			description,
 			[propertyStoresTemplateExtensions]: str,
 			buttons,
