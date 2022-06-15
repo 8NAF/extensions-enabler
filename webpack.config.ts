@@ -1,15 +1,7 @@
-//@ts-check
+import { resolve } from 'path'
+import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin'
+import { Configuration } from 'webpack'
 
-'use strict'
-
-const { resolve } = require('path')
-
-const { TsconfigPathsPlugin } = require('tsconfig-paths-webpack-plugin')
-
-//@ts-check
-/** @typedef {import('webpack').Configuration} WebpackConfig **/
-
-/** @type WebpackConfig */
 const extensionConfig = {
 	target: 'node', // vscode extensions run in a Node.js-context 📖 -> https://webpack.js.org/configuration/node/
 	node: {
@@ -54,6 +46,6 @@ const extensionConfig = {
 	infrastructureLogging: {
 		level: 'log', // enables logging required for problem matchers
 	},
-}
+} as Configuration
 
-module.exports = [extensionConfig]
+export default extensionConfig

@@ -20,5 +20,11 @@
 			"@types": ["types"],
 			"@paths": ["paths"]
 		}
+	},
+	"exclude": ["webpack.config.ts"],
+	"ts-node": {
+		"compilerOptions": {
+			"module": "CommonJS"
+		}
 	}
 }
