@@ -1,6 +1,7 @@
 import * as vscode from 'vscode'
 
-import { Command, getCommands } from '@commands'
+import { getCommands } from '@commands'
+import { Command } from '@core'
 import { PackageJSON } from '@types'
 
 export async function activate(context: vscode.ExtensionContext) {
