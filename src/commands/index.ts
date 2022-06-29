@@ -44,6 +44,4 @@ function getCommands(context: ExtensionContext) {
 	return myCommands
 }
 
-export * from '../core/command'
-export * from '../core/stage'
 export { getCommands, myCommands }
