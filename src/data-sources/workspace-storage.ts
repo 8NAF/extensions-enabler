@@ -5,7 +5,7 @@ import { open } from 'sqlite'
 import { ExtensionContext } from 'vscode'
 
 import { VS_CODE_WORKSPACE_STORAGE_PATH } from '@paths'
-import { Extension, TemplateId } from '@types'
+import { Extension, TemplateIds } from '@types'
 
 function getDatabasePath(
 	workspaceUri: ExtensionContext['storageUri'] | undefined,
@@ -32,30 +32,31 @@ class WorkspaceStorage {
 		this.databasePath = getDatabasePath(workspaceUri)
 	}
 
-	public getTemplateId() {
-		return this.workspaceState.get('templateId', '')
+	public getTemplateIds() {
+		return this.workspaceState.get('templateIds', []) as string[]
 	}
 
-	public async applyTemplate({
-		templateId,
+	public async applyTemplates({
+		templateIds,
 		enabledExtensions,
 		disabledExtensions,
 	}: {
-		templateId: TemplateId
+		templateIds: TemplateIds
 		enabledExtensions: Extension[]
 		disabledExtensions: Extension[]
 	}) {
 		await Promise.all([
 			this._upsert('enabled', enabledExtensions),
 			this._upsert('disabled', disabledExtensions),
+			// prettier-ignore
 			this.workspaceState.update(
-				WorkspaceStorage.templateIdKey,
-				templateId,
+				WorkspaceStorage.templateIdsKey,
+				[...templateIds]
 			),
 		])
 	}
 
-	private static readonly templateIdKey = 'templateId'
+	private static readonly templateIdsKey = 'templateIds'
 
 	private static readonly itemTable = 'ItemTable'
 	//private static readonly keyColumn = 'key'
@@ -63,7 +64,9 @@ class WorkspaceStorage {
 
 	private async _upsert(
 		state: 'enabled' | 'disabled',
-		template: Parameters<typeof this.applyTemplate>[0]['enabledExtensions'],
+		template: Parameters<
+			typeof this.applyTemplates
+		>[0]['enabledExtensions'],
 	) {
 		if (this.databasePath === null) {
 			throw new Error('No folder is opened')

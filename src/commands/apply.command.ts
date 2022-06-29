@@ -3,7 +3,7 @@ import { window } from 'vscode'
 import { getSelectTemplatesMaterials } from '@actions'
 import { Command } from '@commands'
 import { GlobalStorage, WorkspaceStorage } from '@data-sources'
-import { TemplateId } from '@types'
+import { TemplateIds } from '@types'
 import { Stage, StagesQueue } from './.stage'
 
 function getCommand(
@@ -13,34 +13,36 @@ function getCommand(
 	const command = new Command('apply')
 
 	// TODO: apply template to a specified workspace
-	// TODO: apply multiple templates
 	// TODO: install missing extensions
-	// TODO: reload to refresh extensions
+	// TODO: restart vscode to refresh extensions
 	async function onApply(
-		templateId: TemplateId | undefined = undefined,
+		templateIds: TemplateIds | undefined = undefined,
 		restartMessage = '✅ Apply template successfully. 🔄 Please restart VSCode.',
 	) {
 		const { cleanup: cleanupSelectTemplates, selectTemplates } =
 			getSelectTemplatesMaterials.call(command, {
-				canSelectMany: false,
+				canSelectMany: true,
 			})
 
 		async function applyTemplate(this: Stage) {
 			const { exitCode, manager, nextCode } = this
 			const { globalStorage } = manager
 
-			const templateId = manager.getStorage<TemplateId>('templateId', '')
-			if (templateId === '') {
-				window.showErrorMessage(`⛔ Template id must be not empty.`)
+			const templateIds = manager.getStorage<TemplateIds>(
+				'templateIds',
+				new Set(),
+			)
+			if (templateIds.size === 0) {
+				window.showErrorMessage(`⛔ No template is selected`)
 				return exitCode
 			}
 
 			const { enabledExtensions, disabledExtensions } =
-				await globalStorage.splitExtensions(templateId)
+				await globalStorage.splitExtensions(templateIds)
 
 			const result = await workspaceStorage
-				.applyTemplate({
-					templateId,
+				.applyTemplates({
+					templateIds,
 					enabledExtensions,
 					disabledExtensions,
 				})
@@ -62,11 +64,11 @@ function getCommand(
 		}
 
 		const stages = new StagesQueue(globalStorage, [
-			templateId ? undefined : selectTemplates,
+			templateIds ? undefined : selectTemplates,
 			applyTemplate,
 		])
 
-		stages.setStorages({ templateId })
+		stages.setStorages({ templateIds })
 		await stages.exec()
 
 		cleanupSelectTemplates()

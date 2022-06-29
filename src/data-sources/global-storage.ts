@@ -1,6 +1,7 @@
 import { ExtensionContext } from 'vscode'
 
 import {
+	Extension,
 	ExtensionIds,
 	Template,
 	TemplateId,
@@ -150,22 +151,31 @@ class GlobalStorage {
 		}, new Set() as ExtensionIds)
 	}
 
-	public async splitExtensions(templateId: TemplateId) {
-		const templateValue = this.getTemplateValue(templateId)
-		if (templateValue.name === '') {
-			return {
-				enabledExtensions: [],
-				disabledExtensions: [],
-			}
-		}
-		const enabledExtensions = templateValue.extensions
+	private async getEnabledExtensions(templateIds: TemplateIds) {
+		const enabledExtensions = new Set<Extension>()
+		templateIds.forEach(id => {
+			const { extensions } = this.getTemplateValue(id)
+			extensions.forEach(extension => enabledExtensions.add(extension))
+		})
 
+		return [...enabledExtensions]
+	}
+
+	private async getDisabledExtensions(
+		enabledExtensions: TemplateValue['extensions'],
+	) {
 		const installedExtensions = await getInstalledExtensions()
 		const enabledExtensionIds =
 			GlobalStorage.getExtensionIds(enabledExtensions)
-		const disabledExtensions = installedExtensions.filter(
-			e => !enabledExtensionIds.has(e.id),
-		) as TemplateValue['extensions']
+
+		return installedExtensions.filter(e => !enabledExtensionIds.has(e.id))
+	}
+
+	public async splitExtensions(templateIds: TemplateIds) {
+		const enabledExtensions = await this.getEnabledExtensions(templateIds)
+		const disabledExtensions = await this.getDisabledExtensions(
+			enabledExtensions,
+		)
 
 		return {
 			enabledExtensions,

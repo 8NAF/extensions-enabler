@@ -16,7 +16,7 @@ function getCommand(
 ) {
 	const command = new Command('edit')
 
-	async function onEdit(templateId: TemplateId | undefined) {
+	async function onEdit(templateId: TemplateId | undefined = undefined) {
 		const { cleanup: cleanupSelectTemplates, selectTemplates } =
 			getSelectTemplatesMaterials.call(command, {
 				canSelectMany: false,
@@ -32,9 +32,9 @@ function getCommand(
 			const { nextCode, manager, exitCode } = this
 
 			const editedTemplateId = manager.getStorage('templateId', '')
-			const appliedTemplateId = workspaceStorage.getTemplateId()
+			const appliedTemplateIds = workspaceStorage.getTemplateIds()
 
-			if (appliedTemplateId !== editedTemplateId) {
+			if (!appliedTemplateIds.includes(editedTemplateId)) {
 				window.showInformationMessage(`✅ Edit template successfully.`)
 				return nextCode
 			}
@@ -42,9 +42,9 @@ function getCommand(
 			return commands
 				.executeCommand(
 					myCommands.apply.name,
-					appliedTemplateId,
+					appliedTemplateIds,
 					'✅ Edit template successfully. ' +
-						'🔄 This workspace is using this template, ' +
+						'🔄 This workspace is applying this template, ' +
 						'please restart VSCode to take effects.',
 				)
 				.then(
