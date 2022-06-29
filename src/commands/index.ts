@@ -1,7 +1,7 @@
 import { ExtensionContext } from 'vscode'
 
+import { Command } from '@core'
 import { GlobalStorage, WorkspaceStorage } from '@data-sources'
-import { Command } from './.command'
 import { getCommand as getApplyCommand } from './apply.command'
 import { getCommand as getCloneCommand } from './clone.command'
 import { getCommand as getCreateCommand } from './create.command'
@@ -44,6 +44,6 @@ function getCommands(context: ExtensionContext) {
 	return myCommands
 }
 
-export * from './.command'
-export * from './.stage'
+export * from '../core/command'
+export * from '../core/stage'
 export { getCommands, myCommands }

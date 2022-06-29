@@ -3,10 +3,9 @@ import { writeFile } from 'fs/promises'
 import { Uri, window } from 'vscode'
 
 import { getSelectTemplatesMaterials } from '@actions'
-import { Command } from '@commands'
+import { Command, Stage, StagesQueue } from '@core'
 import { GlobalStorage } from '@data-sources'
 import { ExportedData, TemplateIds } from '@types'
-import { Stage, StagesQueue } from './.stage'
 
 function getCommand(globalStorage: GlobalStorage) {
 	const command = new Command('export')

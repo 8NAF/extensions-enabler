@@ -5,10 +5,10 @@ import {
 	getSelectExtensionsMaterials,
 	getSelectTemplatesMaterials,
 } from '@actions'
-import { Command, myCommands } from '@commands'
+import { myCommands } from '@commands'
+import { Command, Stage, StagesQueue } from '@core'
 import { GlobalStorage, WorkspaceStorage } from '@data-sources'
 import { TemplateId } from '@types'
-import { Stage, StagesQueue } from './.stage'
 
 function getCommand(
 	globalStorage: GlobalStorage,

@@ -4,9 +4,8 @@ import {
 	getDeleteManyFromGlobalStorageMaterials,
 	getSelectTemplatesMaterials,
 } from '@actions'
-import { Command } from '@commands'
+import { Command, Stage, StagesQueue } from '@core'
 import { GlobalStorage } from '@data-sources'
-import { Stage, StagesQueue } from './.stage'
 
 function getCommand(globalStorage: GlobalStorage) {
 	const command = new Command('delete')

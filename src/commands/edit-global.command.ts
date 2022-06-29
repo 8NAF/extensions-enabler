@@ -2,9 +2,8 @@ import {
 	getEditGlobalTemplateToGlobalStorageMaterials,
 	getSelectExtensionsMaterials,
 } from '@actions'
-import { Command } from '@commands'
+import { Command, StagesQueue } from '@core'
 import { GlobalStorage } from '@data-sources'
-import { StagesQueue } from './.stage'
 
 function getCommand(globalStorage: GlobalStorage) {
 	const command = new Command('editGlobal')

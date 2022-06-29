@@ -6,9 +6,9 @@ import {
 	getSaveOneToGlobalStorageMaterials,
 	getSelectExtensionsMaterials,
 } from '@actions'
-import { Command, myCommands, StagesQueue } from '@commands'
+import { myCommands } from '@commands'
+import { Command, Stage, StagesQueue } from '@core'
 import { GlobalStorage } from '@data-sources'
-import { Stage } from './.stage'
 
 function getCommand(globalStorage: GlobalStorage) {
 	const command = new Command('create')

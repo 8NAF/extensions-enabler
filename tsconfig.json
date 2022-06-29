@@ -16,6 +16,7 @@
 			"@actions": ["actions/index"],
 			"@data-sources": ["data-sources/index"],
 			"@commands": ["commands/index"],
+			"@core": ["core/index"],
 			"@utils/*": ["utils/*"],
 			"@types": ["types"],
 			"@paths": ["paths"]
