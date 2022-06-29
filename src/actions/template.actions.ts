@@ -5,7 +5,7 @@ import {
 	CreateInputBoxOptions,
 	createQuickPick,
 } from '@actions'
-import { Command, Stage } from '@commands'
+import { Command, Stage } from '@core'
 import { Buttons } from '@paths'
 import { TemplateId, TemplateIds, TemplateName } from '@types'
 import { toQuickPickItem, toTemplateId } from '@utils/converter'

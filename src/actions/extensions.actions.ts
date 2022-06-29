@@ -1,7 +1,7 @@
 import { commands, Disposable, window } from 'vscode'
 
 import { createQuickPick, getQuickPickItems } from '@actions'
-import { Command, Stage } from '@commands'
+import { Command, Stage } from '@core'
 import { GlobalStorage } from '@data-sources'
 import { Buttons } from '@paths'
 import { TemplateId } from '@types'

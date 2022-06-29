@@ -1,6 +1,6 @@
 import { ProgressLocation, window } from 'vscode'
 
-import { Command, Stage } from '@commands'
+import { Command, Stage } from '@core'
 import {
 	Extension,
 	TemplateId,
