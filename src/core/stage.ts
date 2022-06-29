@@ -44,10 +44,6 @@ type Executer = (this: Stage) => Promise<number | undefined | null>
 const EXIT_CODE = -1
 
 class Stage {
-	/**
-	 * skipped stage does not
-	 * need a manager and an executer
-	 * @ts-expect-error */
 	public static readonly SkippedStage = new Stage(null, EXIT_CODE, null)
 
 	public readonly manager: StagesQueue
@@ -56,10 +52,15 @@ class Stage {
 		this: Stage,
 	) => Promise<number | undefined | null>
 
-	public constructor(manager: StagesQueue, code: number, executer: Executer) {
-		this.manager = manager
+	public constructor(
+		manager: StagesQueue | null,
+		code: number,
+		executer: Executer | null,
+	) {
+		this.manager = manager!
 		this.code = code
-		this.executer = executer.bind(this)
+		this.executer =
+			executer?.bind(this) ?? (() => Promise.resolve(EXIT_CODE))
 	}
 
 	public get exitCode() {
