@@ -4,6 +4,14 @@ All notable changes to the "8naf-extension-enabler" extension will be documented
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.1.1] - 2022-06-29
+
+### Changed
+
+-   Fix path not found on Linux.
+
+---
+
 ## [0.1.0] - 2022-06-15
 
 ### Added
