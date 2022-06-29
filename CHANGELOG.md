@@ -4,6 +4,14 @@ All notable changes to the "8naf-extension-enabler" extension will be documented
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.2.0] - 2022-06-29
+
+### Add
+
+-   Apply multiple templates
+
+---
+
 ## [0.1.1] - 2022-06-29
 
 ### Changed
