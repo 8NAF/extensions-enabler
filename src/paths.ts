@@ -11,7 +11,7 @@ const VS_CODE_APP_DATA_PATH = (() => {
 		case 'darwin':
 			return `${process.env.HOME}/Library/Application Support/Code`
 		default:
-			return `${process.env.HOME}/.config/Code}`
+			return `${process.env.HOME}/.config/Code`
 	}
 })()
 
