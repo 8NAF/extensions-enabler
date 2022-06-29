@@ -44,6 +44,12 @@ type Executer = (this: Stage) => Promise<number | undefined | null>
 const EXIT_CODE = -1
 
 class Stage {
+	/**
+	 * skipped stage does not
+	 * need a manager and an executer
+	 * @ts-expect-error */
+	public static readonly SkippedStage = new Stage(null, EXIT_CODE, null)
+
 	public readonly manager: StagesQueue
 	private readonly code: number
 	public readonly executer: (
@@ -82,13 +88,15 @@ class StagesQueue {
 
 	public constructor(
 		globalStorage: GlobalStorage,
-		executers: (Executer | undefined)[],
+		executersOrSkippedStage: (Executer | Stage)[],
 	) {
 		this.globalStorage = globalStorage
 
-		executers = executers.filter(executer => executer !== undefined)
+		const executers = executersOrSkippedStage.filter(
+			executer => !(executer instanceof Stage),
+		) as Executer[]
 		executers.forEach((executer, index) => {
-			this.stagesQueue[index] = new Stage(this, index, executer!)
+			this.stagesQueue[index] = new Stage(this, index, executer)
 		})
 	}
 

@@ -54,7 +54,7 @@ function getCommand(
 		}
 
 		const stages = new StagesQueue(globalStorage, [
-			templateId ? undefined : selectTemplates,
+			templateId ? Stage.SkippedStage : selectTemplates,
 			selectExtensions,
 			editOneToGlobalStorage,
 			restartIfApply,
